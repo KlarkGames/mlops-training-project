@@ -17,4 +17,4 @@ stages:
     deps:
       - src/models/model_train.py
     outs:
-      - out 
+      - out
