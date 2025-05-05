@@ -1,0 +1,20 @@
+stages:
+  data_download:
+    cmd:  uv run python src/data/data_download.py
+    deps:
+      - src/data/data_download.py
+    outs:
+      - data/initial_data/initial_data.csv
+      - data/initial_data/target.csv
+  data_prepare:
+    cmd: uv run python src/data/data_prepare.py
+    deps:
+      - src/data/data_prepare.py
+    outs:
+      - data/prepared_data/prepared_data.csv
+  training:
+    cmd: uv run python src/models/model_train.py
+    deps:
+      - src/models/model_train.py
+    outs:
+      - out 
