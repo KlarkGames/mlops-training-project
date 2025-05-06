@@ -8,7 +8,15 @@ authors = [
 requires-python = ">= 3.11"
 readme = "README.md"
 dependencies = [
+    "click>=8.1.8",
+    "dvc>=3.59.1",
+    "dvclive>=3.48.2",
+    "kaggle>=1.7.4.2",
     "lightning>=2.5.1.post0",
+    "mlflow>=2.22.0",
+    "num2words>=0.5.14",
+    "pandas>=2.2.3",
+    "python-dotenv>=1.1.0",
     "torch>=2.7.0",
     "torchaudio>=2.7.0",
 ]
