@@ -1,0 +1,126 @@
+schema: '2.0'
+stages:
+  data_download:
+    cmd:
+    - uv run python -m src.data.data_download
+    deps:
+    - path: src/data/data_download.py
+      hash: md5
+      md5: cf0cace29de4bb4837b9b73fbfb77ddf
+      size: 1687
+      isexec: true
+    outs:
+    - path: data/numbers/dev
+      hash: md5
+      md5: 421b523d68ce0494531f91f1bc8823f2.dir
+      size: 176507616
+      nfiles: 2265
+    - path: data/numbers/dev.csv
+      hash: md5
+      md5: cbdcf0c314756b9d0d457926ddbf0c9a
+      size: 108238
+      isexec: true
+    - path: data/numbers/test
+      hash: md5
+      md5: 4836b153c51bebcc7c8aea45ac643d37.dir
+      size: 207792726
+      nfiles: 2582
+    - path: data/numbers/test.csv
+      hash: md5
+      md5: 2ef9914062e421d7424d452b155f4639
+      size: 77484
+      isexec: true
+    - path: data/numbers/train
+      hash: md5
+      md5: 2c0d5ec71d2b4335c0c485f6879c2dd0.dir
+      size: 1819728420
+      nfiles: 12553
+    - path: data/numbers/train.csv
+      hash: md5
+      md5: 6cea2aafefc4527b7095be36a6280216
+      size: 629080
+      isexec: true
+  data_prepare:
+    cmd: uv run python -m src.data.data_prepare
+    deps:
+    - path: data/numbers/dev
+      hash: md5
+      md5: 421b523d68ce0494531f91f1bc8823f2.dir
+      size: 176507616
+      nfiles: 2265
+    - path: data/numbers/dev.csv
+      hash: md5
+      md5: cbdcf0c314756b9d0d457926ddbf0c9a
+      size: 108238
+      isexec: true
+    - path: data/numbers/train
+      hash: md5
+      md5: 2c0d5ec71d2b4335c0c485f6879c2dd0.dir
+      size: 1819728420
+      nfiles: 12553
+    - path: data/numbers/train.csv
+      hash: md5
+      md5: 6cea2aafefc4527b7095be36a6280216
+      size: 629080
+      isexec: true
+    - path: src/data/data_prepare.py
+      hash: md5
+      md5: f65b8c5430c2b06c18ad4ca0ca3b936e
+      size: 4364
+      isexec: true
+    outs:
+    - path: data/numbers/vocabulary.json
+      hash: md5
+      md5: cd33a01fd5047c4cd74bc91d98f0920b
+      size: 12
+      isexec: true
+    - path: data/tokens/dev
+      hash: md5
+      md5: 421b523d68ce0494531f91f1bc8823f2.dir
+      size: 176507616
+      nfiles: 2265
+    - path: data/tokens/dev.csv
+      hash: md5
+      md5: 62fe4ceba81d6724b72d904fe77ae47b
+      size: 208409
+      isexec: true
+    - path: data/tokens/train
+      hash: md5
+      md5: 2c0d5ec71d2b4335c0c485f6879c2dd0.dir
+      size: 1819728420
+      nfiles: 12553
+    - path: data/tokens/train.csv
+      hash: md5
+      md5: 40874fd3f71baf3d3f53410fd16b7c91
+      size: 1185541
+      isexec: true
+    - path: data/tokens/vocabulary.json
+      hash: md5
+      md5: 5aff481cc909c7448c3252aad411e054
+      size: 221
+      isexec: true
+    - path: data/words/dev
+      hash: md5
+      md5: 421b523d68ce0494531f91f1bc8823f2.dir
+      size: 176507616
+      nfiles: 2265
+    - path: data/words/dev.csv
+      hash: md5
+      md5: 324761da68464054375956230b371329
+      size: 293662
+      isexec: true
+    - path: data/words/train
+      hash: md5
+      md5: 2c0d5ec71d2b4335c0c485f6879c2dd0.dir
+      size: 1819728420
+      nfiles: 12553
+    - path: data/words/train.csv
+      hash: md5
+      md5: 88756b79456fda4073879d1f263cd029
+      size: 1661198
+      isexec: true
+    - path: data/words/vocabulary.json
+      hash: md5
+      md5: 6f5b250936435958275fa4b17de05f89
+      size: 196
+      isexec: true

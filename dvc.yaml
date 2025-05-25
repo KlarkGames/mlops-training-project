@@ -1,0 +1,54 @@
+stages:
+  data_download:
+    cmd:
+      - uv run python -m src.data.data_download
+    deps:
+      - src/data/data_download.py
+    outs:
+      - data/numbers/dev
+      - data/numbers/test
+      - data/numbers/train
+      - data/numbers/dev.csv
+      - data/numbers/test.csv
+      - data/numbers/train.csv
+  data_prepare:
+    cmd: uv run python -m src.data.data_prepare
+    deps:
+      - src/data/data_prepare.py
+      - data/numbers/dev
+      - data/numbers/train
+      - data/numbers/dev.csv
+      - data/numbers/train.csv
+    outs:
+      - data/numbers/vocabulary.json
+      - data/words/dev
+      - data/words/train
+      - data/words/dev.csv
+      - data/words/train.csv
+      - data/words/vocabulary.json
+      - data/tokens/dev
+      - data/tokens/train
+      - data/tokens/dev.csv
+      - data/tokens/train.csv
+      - data/tokens/vocabulary.json
+  training:
+    foreach:
+      - numbers
+      - words
+      - tokens
+    do:
+      cmd:
+        - >-
+          uv run python -m src.models.train
+          --train-csv data/${item}/train.csv
+          --val-csv data/${item}/dev.csv
+          --train-audio-dir data/${item}
+          --val-audio-dir data/${item}
+          --vocabulary-json data/${item}/vocabulary.json
+      deps:
+        - src/models/train.py
+        - data/${item}/train.csv
+        - data/${item}/dev.csv
+        - data/${item}/vocabulary.json
+        - data/${item}/train
+        - data/${item}/dev
