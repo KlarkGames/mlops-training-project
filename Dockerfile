@@ -1,14 +1,20 @@
-FROM python:3.12-bullseye as builder
+FROM python:3.11-slim
+WORKDIR /app
 
-RUN pip install --no-cache-dir uv
+RUN apt-get update && apt-get install -y \
+    git \
+    build-essential \
+    && rm -rf /var/lib/apt/lists/*
 
-COPY pyproject.toml requirements.txt uv.lock ./
+COPY pyproject.toml uv.lock /app/
 
-RUN uv sync --system
+RUN pip install uv dvc apache-airflow && \
+    uv install
 
-COPY . .
+# Копируем код
+COPY . /app
 
-RUN useradd -m appuser
-USER appuser
 
-# CMD ["python", "-m", "your_package"]
+RUN dvc pull --quiet
+
+ENTRYPOINT ["bash"]
