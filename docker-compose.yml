@@ -10,7 +10,7 @@ services:
       - postgres_db:/var/lib/postgresql/data
 
   airflow:
-    image: apache/airflow:2.7.1-python3.11
+    build: .
     depends_on:
       - postgres
     environment:
