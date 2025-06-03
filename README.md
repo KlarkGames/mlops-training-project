@@ -2,28 +2,6 @@
 
 Kaggle competition to complete: https://www.kaggle.com/competitions/asr-numbers-recognition-in-russian/overview
 
-# How to use
-
-## Install dependencies:
-
-```bash
-pip install uv
-uv sync
-```
-
-## Run Pipeline
-
-Run local server:
-
-```bash
-mlflow server
-```
-
-Run pipeline:
-
-```bash
-dvc repro
-```
 
 ## Results
 
@@ -88,3 +66,8 @@ The DAG contains:
 * `train_model`: runs model training
 
 All steps are executed via `uv` for dependency consistency and tracked with `dvc`.
+
+## Others Services URL's
+
+- MLFlow: [http://localhost:9000](http://localhost:5000)
+- MINIO: [http://localhost:7000](http://localhost:9000)

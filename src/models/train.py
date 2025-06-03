@@ -142,7 +142,7 @@ def main(
     log_every_n_steps,
     ckpt_path,
 ):
-    mlflow_logger = MLFlowLogger(experiment_name="ASR_Conformer_Experiment", tracking_uri="file:./mlruns")
+    mlflow_logger = MLFlowLogger(experiment_name="ASR_Conformer_Experiment")
 
     train_ds = ASRDataset(train_csv, train_audio_dir, vocabulary_json, target_sample_rate=16000)
     dev_ds = ASRDataset(val_csv, val_audio_dir, vocabulary_json, target_sample_rate=16000)
