@@ -71,3 +71,37 @@ All steps are executed via `uv` for dependency consistency and tracked with `dvc
 
 - MLFlow: [http://localhost:9000](http://localhost:5000)
 - MINIO: [http://localhost:7000](http://localhost:9000)
+
+## FastAPI model service
+
+The repository exposes a FastAPI application that wraps the existing training
+pipeline located in `src/models` and `src/data`.  The service can download and
+prepare data, perform inference using a trained Conformer model and report
+metrics on the validation split.
+
+### Run locally
+
+```bash
+uvicorn src.api.main:app --reload
+```
+
+To start the service with Docker Compose:
+
+```bash
+docker-compose up api
+```
+
+The model checkpoint and validation dataset paths are configured in
+`service_config.yaml`.
+
+### Endpoints
+
+* `POST /download_data` &mdash; download the raw dataset from Kaggle.
+* `POST /prepare_data` &mdash; generate dataset splits and vocabularies.
+* `POST /predict` &mdash; return transcription for an uploaded audio file.
+* `GET /metrics` &mdash; compute character error rate on the validation split.
+
+### Example client
+
+`python scripts/query_api.py` sends the validation set audio files to the API
+and saves predictions to `results.json`.

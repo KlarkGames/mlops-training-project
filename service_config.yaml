@@ -1,0 +1,4 @@
+model_checkpoint: models/asr_model.ckpt
+vocabulary_json: data/numbers/vocabulary.json
+val_csv: data/numbers/dev.csv
+val_audio_dir: data/numbers/dev

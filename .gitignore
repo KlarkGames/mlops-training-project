@@ -132,3 +132,6 @@ mlruns
 
 # Tools configs
 .dvc
+models/*.pkl
+
+uv.lock
