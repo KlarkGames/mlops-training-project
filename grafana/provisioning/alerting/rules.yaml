@@ -1,0 +1,29 @@
+piVersion: 1
+groups:
+  - name: training
+    interval: 1m
+    rules:
+      - uid: val_loss_high
+        title: 'Validation Loss Too High'
+        condition: A
+        data:
+          - refId: A
+            relativeTimeRange:
+              from: 0
+              to: 600
+            datasourceUid: "Prometheus"
+            model:
+              datasource:
+                type: prometheus
+                uid: '-100'
+              expr: val_loss{job="asr_training"} > 1
+              hide: false
+              intervalMs: 15000
+              maxDataPoints: 43200
+        noDataState: OK
+        execErrState: OK
+        for: 0m
+        annotations:
+          description: 'Validation loss is above 1 for last 10m.'
+        labels:
+          severity: warning

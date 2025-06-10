@@ -18,6 +18,35 @@ Result of training with numbers representation (Audio -> <1>|<200><30><4>)
 
 Token representation allows us to achieve the best validation loss.
 
+
+## 📈 Monitoring
+
+The project exposes training metrics to Prometheus via **Pushgateway**. The
+`docker-compose.yml` file includes services `pushgateway`, `prometheus` and
+`grafana`. After training each dataset version the script pushes the latest
+`val_loss` metric to Pushgateway.
+
+Grafana is provisioned with Prometheus as a data source and an alert rule that
+checks the `val_loss` metric. Alerts are sent through a Telegram contact point.
+Set the following environment variables before starting the stack:
+
+```bash
+export GF_TELEGRAM_BOT_TOKEN=your_bot_token
+export GF_TELEGRAM_CHAT_ID=your_chat_id
+```
+
+Start the full stack with:
+
+```bash
+docker-compose up -d
+```
+
+Grafana will be available at [http://localhost:3000](http://localhost:3000) and
+Prometheus at [http://localhost:9090](http://localhost:9090).
+
+Alerts will trigger when `val_loss` stays above `1` and will be sent to the
+specified Telegram chat.
+
 # Collaboration
 
 To collaborate on this project please use [GitHub Workflow](https://docs.github.com/en/get-started/using-github/github-flow).
@@ -69,8 +98,10 @@ All steps are executed via `uv` for dependency consistency and tracked with `dvc
 
 ## Others Services URL's
 
-- MLFlow: [http://localhost:9000](http://localhost:5000)
-- MINIO: [http://localhost:7000](http://localhost:9000)
+- MLFlow: [http://localhost:5000](http://localhost:5000)
+- MINIO: [http://localhost:9000](http://localhost:9000)
+- Prometheus: [http://localhost:9090](http://localhost:9090)
+- Grafana: [http://localhost:3000](http://localhost:3000)
 
 ## FastAPI model service
 

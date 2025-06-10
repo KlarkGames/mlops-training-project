@@ -9,6 +9,8 @@ from torch.utils.data import DataLoader
 
 from src.data.dataloader import ASRDataset, collate_fn
 from src.models.model import ASRLightningConformer
+from prometheus_client import CollectorRegistry, Gauge, push_to_gateway
+import os
 
 warnings.filterwarnings("ignore", category=FutureWarning)
 
@@ -183,6 +185,14 @@ def main(
 
     # Training
     trainer.fit(model, train_loader, dev_loader, ckpt_path=ckpt_path)
+    # Push metrics to Prometheus Pushgateway
+    val_loss = trainer.callback_metrics.get("val_loss")
+    registry = CollectorRegistry()
+    dataset = os.path.basename(os.path.dirname(train_csv))
+    gauge = Gauge("val_loss", "Validation loss of the model", ["dataset"], registry=registry)
+    if val_loss is not None:
+        gauge.labels(dataset=dataset).set(val_loss.item())
+    push_to_gateway(os.getenv("PUSHGATEWAY_HOST", "pushgateway:9091"), job="asr_training", registry=registry)
 
 
 if __name__ == "__main__":

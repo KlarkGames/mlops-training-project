@@ -100,6 +100,31 @@ services:
       - ./models:/app/models
       - ./src:/app/src
 
+  pushgateway:
+    image: prom/pushgateway
+    ports:
+      - "9091:9091"
+
+  prometheus:
+    image: prom/prometheus
+    volumes:
+      - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+    ports:
+      - "9090:9090"
+    depends_on:
+      - pushgateway
+
+  grafana:
+    image: grafana/grafana
+    ports:
+      - "3000:3000"
+    volumes:
+      - grafana_data:/var/lib/grafana
+      - ./grafana/provisioning:/etc/grafana/provisioning
+    environment:
+      - GF_TELEGRAM_BOT_TOKEN=${GF_TELEGRAM_BOT_TOKEN}
+      - GF_TELEGRAM_CHAT_ID=${GF_TELEGRAM_CHAT_ID}
+
 volumes:
   postgres_db:
   dbdata:
